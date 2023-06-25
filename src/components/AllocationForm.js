@@ -2,11 +2,34 @@ import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const AllocationForm = (props) => {
-    const { dispatch, remaining } = useContext(AppContext);
+    const { dispatch, remaining, currency } = useContext(AppContext);
 
     const [name, setName] = useState('');
     const [cost, setCost] = useState('');
     const [action, setAction] = useState('');
+
+    const validateCostAndSetCost = (val) => {
+        const numberized = parseInt(val, 10);
+
+        if (val === '') {
+            setCost('');
+            return;
+        }
+        if (typeof numberized !== 'number' || isNaN(numberized)) {
+            alert('You can submit only numbers');
+            setCost('');
+            return;
+        }
+        if (numberized > remaining) {
+            alert(`The value cannot exceeed remaining funds ${currency}${remaining}`);
+            setCost('');
+            return;
+        }
+        else {
+            setCost(val);
+            return;
+        }
+    }
 
     const submitEvent = () => {
         if (cost > remaining) {
@@ -53,7 +76,8 @@ const AllocationForm = (props) => {
                     <option defaultValue value='Add' name='Add'>Add</option>
                     <option value='Reduce' name='Reduce'>Reduce</option>
                 </select>
-                <input required='required' type='number' id='cost' value={cost} style={{ marginLeft: '2rem', size: 10 }} onChange={e => setCost(e.target.value)} />
+                <input required='required' type='text' id='cost' value={cost} style={{ marginLeft: '2rem', size: 10 }}
+                    onChange={e => validateCostAndSetCost(e.target.value)} />
                 <button className='btn btn-primary' onClick={submitEvent} style={{ marginLeft: '2rem' }}>Save</button>
             </div>
         </div>
