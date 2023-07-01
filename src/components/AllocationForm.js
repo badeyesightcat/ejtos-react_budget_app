@@ -76,8 +76,10 @@ const AllocationForm = (props) => {
                     <option defaultValue value='Add' name='Add'>Add</option>
                     <option value='Reduce' name='Reduce'>Reduce</option>
                 </select>
-                <input required='required' type='text' id='cost' value={cost} style={{ marginLeft: '2rem', size: 10 }}
-                    onChange={e => validateCostAndSetCost(e.target.value)} />
+                <div className='input-group-prepend' style={{ marginLeft: '2rem' }}>
+                    <label className='input-group-text' >{ currency }</label>
+                </div>
+                <input required='required' type='text' id='cost' value={cost} onChange={e => validateCostAndSetCost(e.target.value)} />
                 <button className='btn btn-primary' onClick={submitEvent} style={{ marginLeft: '2rem' }}>Save</button>
             </div>
         </div>
