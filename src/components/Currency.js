@@ -2,19 +2,29 @@ import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const currencyList = [
-    { name: 'dollar', unit: '$' },
-    { name: 'pound', unit: '￡' },
-    { name: 'euro', unit: '€' },
-    { name: 'rupee', unit: '₹' },
+    { name: 'Dollar', unit: '$' },
+    { name: 'Pound', unit: '£' },
+    { name: 'Euro', unit: '€' },
+    { name: 'Rupee', unit: '₹' },
 ];
 const Currency = () => {
-    const { currency } = useContext(AppContext); // , dispatch
+    const { currency, dispatch } = useContext(AppContext);
 
     const chosenCurrency = currencyList.find(item => item.unit === currency);
 
-    return <select>
-        <option defaultValue style={{ textTransform: 'capitalize' }}>Currency({chosenCurrency.unit} {chosenCurrency.name})</option>
-        {currencyList.map(item => <option value={item.unit} key={item.name} style={{ textTransform: 'capitalize' }}>{item.unit} {item.name}</option>)}
+    const handleSetCurrency = (e) => {
+        console.log(e.target.value);
+        dispatch({
+            type: 'CHG_CURRENCY',
+            payload: e.target.value,
+        });
+    };
+
+    return <select onChange={handleSetCurrency} className='select-currency'>
+        <option defaultValue>Currency ({currency} {chosenCurrency.name})</option>
+        {currencyList.map(item => <option value={item.unit} key={item.name}>
+            {item.unit} {item.name}
+        </option>)}
     </select>
 };
 
