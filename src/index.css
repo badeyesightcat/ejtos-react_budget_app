@@ -27,3 +27,7 @@ code {
     color: #333;
     padding: .5rem 0;
 }
+
+.expense-table th, .expense-table .has-button {
+    text-align: center;
+}
